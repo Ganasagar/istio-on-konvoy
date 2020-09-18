@@ -1,0 +1,31 @@
+apiVersion: install.istio.io/v1alpha1
+kind: IstioOperator
+metadata:
+  namespace: istio-system
+  name: dev-istiocontrolplane
+spec:
+  profile: default
+  components:
+    ingressGateways:
+    - name: istio-ingressgateway
+      enabled: true
+      k8s:
+        hpaSpec:
+          minReplicas: 2
+        service:
+          ports:
+            - name: http2
+              port: 80
+              nodePort: 31380
+            - name: https
+              port: 443
+              nodePort: 31390
+    pilot:
+      k8s:
+        hpaSpec:
+          minReplicas: 2
+  # values:
+  #   gateways:
+  #     istio-ingressgateway:
+  #       name: istio-ingressgateway
+  #       type: NodePort
