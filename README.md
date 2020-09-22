@@ -1,4 +1,4 @@
-# Istio-on-mke
+# Istio-on-konvoy
 This repo walk through steps for installing Istio on Konvoy 
 ### Prerequisites
 
