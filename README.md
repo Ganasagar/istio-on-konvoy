@@ -14,7 +14,7 @@ Istio’s diverse feature set lets you successfully, and efficiently, run a dist
 
 D2iQ istio's implementation is based on the upstream Istio project. However it comes with curated list of addons like Jaeger-tracing, Grafana, Prometheus, Cert-Manager etc which are thorougly tested before deployment and are deelpy integrated with Konvoy clusters. 
 
-Edit the `cluster.yaml` file to change the default value of Istio enabled from `false` to `true` in 1 corresponding field:
+1. Edit the `cluster.yaml` file to change the default value of Istio enabled from `false` to `true` in 1 corresponding field:
 ```
 ...
     - enabled: false
@@ -30,11 +30,13 @@ Edit the `cluster.yaml` file to change the default value of Istio enabled from `
     - enabled: true
 ...
 ```
-
+2. Deploy Istio using Konvoy 
 ```bash
 konvoy up --yes --upgrade --force-upgrade
 ```
 You should see an the resulting output should contain istio as in the addons list towards the bottom
+
+Output:
 ```
 STAGE [Deploying Enabled Addons]
 elasticsearch                                                          [OK]
@@ -62,14 +64,11 @@ velero                                                                 [OK]
 kube-oidc-proxy                                                        [OK]
 istio                                                                  [OK]
 ```
-
-
-
+Note: This only state deployment of Addon but does not gaurantee installation of Istio in the cluster
 
 Currently the addon deployed using Konvoy only confirm the triggering of Istio Operator which is reponsible for deploying Istio in the Istio-namespace. To confirm that Istio is installed and is up and running, we will take a couple steps.
 
-
-1. Check if the istio pods are running:
+3. Check if the istio pods are running:
 
 ```bash
 kubectl -n istio-system get pods
@@ -88,7 +87,7 @@ istiod-79f4958ff6-tg8hw                 1/1     Running     0          57m
 kiali-6f9b78cdc6-grrfv                  1/1     Running     0          57m                           0/1     Completed   0          26m
 
 ```
-2. If you do not see the pods up and running, then review the operator logs which is responsible for deploying Istio. Use the operator name from above output
+4. If you do not see the pods up and running, then review the operator logs which is responsible for deploying Istio. Use the operator name from above output
 ```bash
 kubectl logs <operator-pod-name>
 ```
@@ -119,19 +118,19 @@ Note: If you ever misconfigure the `cluster.yaml` before running `konvoy up` the
 
 ### Download and install istioctl to interact with the mesh
 
-Download the latest version of the Istioctl:
+1. Download the latest version of the Istioctl:
 ```bash
 curl -sL https://istio.io/downloadIstioctl | sh -
 ```
-Add the istioctl client to your path, on a macOS or Linux system:
+2. Add the istioctl client to your path, on a macOS or Linux system:
 ```bash
 export PATH=$PATH:$HOME/.istioctl/bin
 ```
-You can get an overview of your mesh using the proxy-status command:
+3. You can get an overview of your mesh using the proxy-status command:
 ```bash
 istioctl proxy-status
 ```
-You should see output like below:
+4. You should see output like below:
 ```bash
 NAME                                                   CDS        LDS        EDS        RDS          PILOT                            VERSION
 istio-ingressgateway-6db99c76dc-zqb2s.istio-system     SYNCED     SYNCED     SYNCED     NOT SENT     istio-pilot-7684976f67-vxgbc     1.6.8
