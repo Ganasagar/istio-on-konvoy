@@ -11,7 +11,7 @@ Istio is currently going through an a major migration from Helm --> Operator bas
           enabled: true
           values: |
             istioOperator:
-              # Istio component 
+              # Inspite of name, factor resource for entire control plane  
               components:
                 pilot:
                   k8s:
@@ -21,9 +21,13 @@ Istio is currently going through an a major migration from Helm --> Operator bas
                       requests:
                         memory: 3072M
                         cpu: 100m
+                  egressGateways:
+                  - name: istio-egressgateway
+                    enabled: true
+              # These are the helm variables
               values:
-                # These are the helm variables
                 global: 
+                # resource for envoy-proxies 
                   proxy:
                     resources:
                       requests:
@@ -40,6 +44,7 @@ Istio is currently going through an a major migration from Helm --> Operator bas
                       requests:
                         cpu: 10m
                         memory: 10M
+                
 ...
 ...
 ...
