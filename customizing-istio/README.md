@@ -21,9 +21,9 @@ Istio is currently going through an a major migration from Helm --> Operator bas
                       requests:
                         memory: 3072M
                         cpu: 100m
-                  egressGateways:
-                  - name: istio-egressgateway
-                    enabled: true
+                egressGateways:
+                - name: istio-egressgateway
+                  enabled: true
               # These are the helm variables
               values:
                 global: 
