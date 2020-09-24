@@ -1,0 +1,71 @@
+  addons:
+    - configRepository: https://github.com/mesosphere/kubernetes-base-addons
+      configVersion: stable-1.17-2.0.2
+      addonsList:
+        - name: awsebscsiprovisioner
+          enabled: true
+        - name: awsebsprovisioner
+          enabled: false
+          values: |
+            storageclass:
+              isDefault: false
+        - name: cert-manager
+          enabled: true
+        - name: dashboard
+          enabled: true
+        - name: defaultstorageclass-protection
+          enabled: true
+        - name: dex
+          enabled: true
+        - name: dex-k8s-authenticator
+          enabled: true
+        - name: elasticsearch
+          enabled: true
+        - name: elasticsearch-curator
+          enabled: true
+        - name: elasticsearchexporter
+          enabled: true
+        - name: external-dns
+          enabled: true
+          values: |
+            aws:
+              region:
+            domainFilters: []
+        - name: flagger
+          enabled: false
+        - name: fluentbit
+          enabled: true
+        - name: gatekeeper
+          enabled: true
+        - name: istio # Istio is currently in Preview
+          enabled: true
+          values: |
+            istioOperator:
+              components:
+                pilot:
+                  k8s:
+                    hpaSpec:
+                      minReplicas: 2
+                    resources:
+                      requests:
+                        memory: 3072M
+                        cpu: 100m  
+              values:
+                # These are the helm variables
+                global: 
+                  proxy:
+                    resources:
+                      requests:
+                        cpu: 100m
+                        memory: 128M
+                      limits:
+                        cpu: 2000m
+                        memory: 1024M
+                  proxy_init:
+                    resources:
+                      limits:
+                        cpu: 100m
+                        memory: 50M
+                      requests:
+                        cpu: 10m
+                        memory: 10M
